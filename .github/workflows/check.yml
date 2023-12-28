@@ -50,7 +50,13 @@ jobs:
 
     - name: Fetch firmware
       if: env.need_update == 1
-      run: samfirm -m ${{ matrix.model }} -r ${{ matrix.region }}
+      run: |
+       if [[ "${{ matrix.model }}" == "SM-G780G" ]]; then
+           imei="358759461234568"
+       elif [[ "${{ matrix.model }}" == "SM-G781B" ]]; then
+           imei="355008378157675"
+       fi
+       samfirm -m ${{ matrix.model }} -r ${{ matrix.region }} -i $imei
 
     - name: Get path of files
       if: env.need_update == 1
